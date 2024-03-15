@@ -1,9 +1,6 @@
-
 import Tabla from './components/Tabla';
 import Search from './components/Search';
 import Select from './components/Select'; 
-
-
 import React, { useState, useEffect } from 'react';
 
 
@@ -29,6 +26,7 @@ function App() {
     { nombre: 'Maria Figueroa', descripcion: 'instructor' },
     { nombre: 'Ana Lopez', descripcion: 'instructor' },
     { nombre: 'Danial Muñoz', descripcion: 'aprendiz' },
+    { nombre: 'isabel Gutierrez', descripcion: 'aprendiz' },
     { nombre: 'Diana Leon', descripcion: 'aprendiz' },
     { nombre: 'Sara hoyos', descripcion: 'aprendiz' },
     { nombre: 'Isabel Bastidas', descripcion: 'aprendiz' },
@@ -41,6 +39,7 @@ function App() {
     setTotalElementos(datos.length);
   }, [datos.length]);
   
+
   const handleBusqueda = (valorBusqueda) => {
     setBusqueda(valorBusqueda);
 
@@ -59,6 +58,7 @@ function App() {
     <div className="App">
       <h1>Lista de Datos</h1>
       <Search onSearch={handleBusqueda} />
+      <Tabla datos={busqueda ? datosFiltrados : datos} />
       <Select onChange={handleFilasPorPaginaChange} />
       <Tabla
         datos={busqueda ? datosFiltrados.slice((paginaActual - 1) * filasPorPagina, paginaActual * filasPorPagina) : datos.slice((paginaActual - 1) * filasPorPagina, paginaActual * filasPorPagina)}
