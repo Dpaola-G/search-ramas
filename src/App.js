@@ -39,8 +39,8 @@ function App() {
 
   useEffect(() => {
     setTotalElementos(datos.length);
-  }, []);
-
+  }, [datos.length]);
+  
   const handleBusqueda = (valorBusqueda) => {
     setBusqueda(valorBusqueda);
 
