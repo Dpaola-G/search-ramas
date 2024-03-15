@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import Tabla from './Tabla';
-import Search from './Search';
+import Tabla from './components/Tabla';
+import Search from './components/Search';
+import Select from './components/Select'; 
+import React, { useState, useEffect } from 'react';
+
 
 function App() {
   const [datosFiltrados, setDatosFiltrados] = useState([]);
   const [busqueda, setBusqueda] = useState('');
+  const [filasPorPagina, setFilasPorPagina] = useState(5);
+  const [totalElementos, setTotalElementos] = useState(0);
+  const [paginaActual, setPaginaActual] = useState(1);
 
   const datos = [
     { nombre: 'Paola Garcia', descripcion: 'aprendiz' },
@@ -22,12 +27,18 @@ function App() {
     { nombre: 'Ana Lopez', descripcion: 'instructor' },
     { nombre: 'Danial Muñoz', descripcion: 'aprendiz' },
     { nombre: 'isabel Gutierrez', descripcion: 'aprendiz' },
+    { nombre: 'Diana Leon', descripcion: 'aprendiz' },
     { nombre: 'Sara hoyos', descripcion: 'aprendiz' },
     { nombre: 'Isabel Bastidas', descripcion: 'aprendiz' },
     { nombre: 'Felipe noguera', descripcion: 'aprendiz' },
     { nombre: 'Juan Pabon', descripcion: 'aprendiz' },
     { nombre: 'Andres Rivera', descripcion: 'aprendiz' },
   ];
+
+  useEffect(() => {
+    setTotalElementos(datos.length);
+  }, [datos.length]);
+  
 
   const handleBusqueda = (valorBusqueda) => {
     setBusqueda(valorBusqueda);
@@ -38,11 +49,23 @@ function App() {
     setDatosFiltrados(datosFiltrados);
   };
 
+  const handleFilasPorPaginaChange = (valor) => {
+    setFilasPorPagina(valor);
+    setPaginaActual(1); // Reiniciar la página actual cuando cambia el número de filas por página
+  };
+
   return (
     <div className="App">
       <h1>Lista de Datos</h1>
       <Search onSearch={handleBusqueda} />
       <Tabla datos={busqueda ? datosFiltrados : datos} />
+      <Select onChange={handleFilasPorPaginaChange} />
+      <Tabla
+        datos={busqueda ? datosFiltrados.slice((paginaActual - 1) * filasPorPagina, paginaActual * filasPorPagina) : datos.slice((paginaActual - 1) * filasPorPagina, paginaActual * filasPorPagina)}
+        paginaActual={paginaActual}
+        totalElementos={totalElementos}
+        filasPorPagina={filasPorPagina}
+      />
     </div>
   );
 }
